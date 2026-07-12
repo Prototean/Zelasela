@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import EventCard from '@/components/EventCard.vue'
+import CardOrganCate from '@/components/CardOrganCate.vue'
 import type { Event } from '@/types'
 import { ref } from 'vue'
 const events = ref<Event[]>([
@@ -42,8 +43,9 @@ const events = ref<Event[]>([
 
 
 <template>
-  <div class="home">
-    <EventCard v-for="event in events" :key="event.id" :event="event"/>
+  <div class="home" v-for="event in events" :key="event.id" >
+    <CardOrganCate :event="event"/> 
+    <EventCard  :event="event"/>
   </div>
 </template>
 
