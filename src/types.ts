@@ -10,7 +10,7 @@ export interface Event {
     organizer: string 
 }
 
-export interface Event {
+export interface Student {
     id : number,
     studentId: string,
     name: string,

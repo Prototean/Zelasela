@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import EventCard from '@/components/CardStundent.vue'
-import type { Event } from '@/types'
+import type { Student } from '@/types'
 import { ref, onMounted } from 'vue'
 import EventService from '@/services/EventStudent'
-const events = ref<Event[] | null>(null)
+const students = ref<Student[] | null>(null)
 
 onMounted (() => {
   EventService.getEvents()
     .then((response) => {
-      events.value = response.data
+      students.value = response.data
     })
     .catch((error) => {
       console.error('There was an error!', error)
@@ -19,13 +19,13 @@ onMounted (() => {
 
 <template>
   <h1>Student List</h1>
-  <div class="student" v-for="event in events" :key="event.id">
-    <EventCard  :event="event"/>
+  <div class="student" v-for=" student in students" :key="student.id">
+    <EventCard  :student="student"/>
   </div>
 </template>
 
 <style scoped>
-.events {
+.Students {
   display: flex;
   flex-direction: column;
   align-items: center;
