@@ -22,11 +22,21 @@ defineProps<{
     <div class="event-card">
       <h2>{{ event.title }}</h2>
       <span>@{{ event.time }} on {{ event.date }}</span>
+        <div class="textOrgan">
+          <h3>{{ event.organizer }}</h3>
+          <h3>{{ event.category}}</h3>
+        </div>
     </div>
   </div>
 </template>
 
 <style scoped>
+.textOrgan {
+  display: contents;
+  align-items: end;
+  align-content: flex-end;
+  text-align: right;
+}
 .event-class{
   display: flex;
   justify-content: center;

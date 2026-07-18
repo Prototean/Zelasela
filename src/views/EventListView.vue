@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import EventCard from '@/components/EventCard.vue'
-import CardOrganCate from '@/components/CardOrganCate.vue'
+//import CardOrganCate from '@/components/CardOrganCate.vue'
 import type { Event } from '@/types'
 import { ref, onMounted } from 'vue'
 import EventService from '@/services/EventService'
@@ -21,7 +21,7 @@ onMounted (() => {
 <template>
   <h1>Events For Good</h1>
   <div class="home" v-for="event in events" :key="event.id" >
-    <CardOrganCate :event="event"/> 
+    <!--<CardOrganCate :event="event"/> -->
     <EventCard  :event="event"/>
   </div>
 </template>
@@ -31,6 +31,6 @@ onMounted (() => {
   display: flex;
   flex-direction: column;
   align-items: center;
-  
+
 }
 </style>

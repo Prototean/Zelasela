@@ -3,7 +3,7 @@ export interface Event {
     category: string
     title: string
     description: string
-    loacation: string
+    location: string
     date: string
     time: string
     petsAllowed: boolean
