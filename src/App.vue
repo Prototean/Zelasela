@@ -16,7 +16,18 @@ import { RouterLink, RouterView } from 'vue-router'
       </div>
     </header>
 
+    <router-link 
+    v-for="size in [2, 3, 4, 5]"
+    :key="size"
+    :to="{ query: { ...$route.query, size: size, page: 1}}"
+    :class="{ 'active-size': ($route.query.size  || 2 )== size}"
+    >
+     {{ size }} per page
+    </router-link>
+    
+
     <RouterView />
+
   </div>
 </template>
 

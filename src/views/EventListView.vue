@@ -14,14 +14,19 @@ const props = defineProps({
   page: {
     type: Number,
     required: true
+  },
+  AmountEvent:{
+    type: Number,
+    required: true
   }
 })
 const page = computed(() => props.page)
+const pageSize = computed(() => props.AmountEvent)
 
 onMounted (() => {
   watchEffect (() => {
   events.value = null
-  EventService.getEvents(2, page.value)
+  EventService.getEvents(pageSize.value, page.value)
     .then((response) => {
       events.value = response.data
       totalEvents.value = response.headers['x-total-count']
@@ -43,13 +48,13 @@ onMounted (() => {
   
   <div class="pagination">
     <RouterLink 
-      :to="{ name: 'event-list-view', query: { page: page - 1 }}"
+      :to="{ name: 'event-list-view', query: { page: page - 1, size: AmountEvent}}"
       rel="prev"
       v-if="page != 1"
       >&#60; Prev Page</RouterLink>
 
     <RouterLink 
-      :to="{name: 'event-list-view', query: { page: page + 1 } }" 
+      :to="{name: 'event-list-view', query: { page: page + 1, size: AmountEvent} }" 
       rel="next"
       v-if="hasNextPage"> Next Page &#62;</RouterLink>
   </div>
