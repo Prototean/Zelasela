@@ -2,12 +2,20 @@
 import EventCard from '@/components/EventCard.vue'
 //import CardOrganCate from '@/components/CardOrganCate.vue'
 import type { Event } from '@/types'
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import EventService from '@/services/EventService'
 const events = ref<Event[] | null>(null)
 
+const props = defineProps({
+  page: {
+    type: Number,
+    required: true
+  }
+})
+const page = computed(() => props.page)
+
 onMounted (() => {
-  EventService.getEvents()
+  EventService.getEvents(2, page.value)
     .then((response) => {
       events.value = response.data
     })
@@ -24,6 +32,9 @@ onMounted (() => {
     <!--<CardOrganCate :event="event"/> -->
     <EventCard  :event="event"/>
   </div>
+  <RouterLink 
+    :to="{ name: 'event-list-view', query: { page: page - 1 }}"
+    
 </template>
 
 <style scoped>
