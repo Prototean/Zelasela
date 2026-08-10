@@ -8,6 +8,7 @@ import EventEditView from '@/views/event/EditView.vue'
 import EventLayoutView from '@/views/event/LayoutView.vue'
 import NotFoundView from '@/views/NotFoundView.vue'
 import NetworkErrorView from '@/views/NetworkErrorView.vue'
+import nProgress from 'nprogress'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -16,21 +17,21 @@ const router = createRouter({
       path: '/',
       name: 'event-list-view',
       component: EvenListView,
-      props: (route) => ({ 
+      props: (route) => ({
         page: parseInt(route.query.page?.toString() || '1'),
-        AmountEvent: parseInt(route.query.size?.toString() || '2') 
-      })
+        AmountEvent: parseInt(route.query.size?.toString() || '2'),
+      }),
     },
     {
-      path:'/event/:id',
-      name:'event-layout-view',
+      path: '/event/:id',
+      name: 'event-layout-view',
       component: EventLayoutView,
       props: true,
       children: [
         {
           path: '',
           name: 'event-detail-view',
-          component: EventDetailView
+          component: EventDetailView,
         },
         {
           path: 'register',
@@ -41,8 +42,8 @@ const router = createRouter({
           path: 'edit',
           name: 'event-edit-view',
           component: EventEditView,
-        }
-      ]
+        },
+      ],
     },
     {
       path: '/about',
@@ -56,12 +57,12 @@ const router = createRouter({
       path: '/404/:resource',
       name: '404-resource-view',
       component: NotFoundView,
-      props: true
+      props: true,
     },
     {
       path: '/:catchAll(.*)',
       name: 'not-found',
-      component: NotFoundView
+      component: NotFoundView,
     },
     {
       path: '/student',
@@ -72,9 +73,16 @@ const router = createRouter({
     {
       path: '/network-error',
       name: 'network-error-view',
-      component: NetworkErrorView
+      component: NetworkErrorView,
     },
   ],
+})
+router.beforeEach(() => {
+  nProgress.start()
+})
+
+router.afterEach(() => {
+  nProgress.done()
 })
 
 export default router
