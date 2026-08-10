@@ -14,7 +14,7 @@ const { event } = toRefs(props)
 
 <template>
   <div id="flashMessage" v-if="editMessage">
-    <p>{{ editMessage }}</p>
+    <h4>{{ editMessage }}</h4>
   </div>
   <p>{{ event.time }} on {{ event.date }} @ {{ event.location }}</p>
   <p>{{ event.description }}</p>

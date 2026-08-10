@@ -4,59 +4,68 @@ import EventCard from '@/components/EventCard.vue'
 import type { Event } from '@/types'
 import { ref, onMounted, computed, watchEffect } from 'vue'
 import EventService from '@/services/EventService'
+import nProgress from 'nprogress'
+
 const events = ref<Event[] | null>(null)
 const totalEvents = ref<number>(0)
-const hasNextPage = computed( () =>{
+const hasNextPage = computed(() => {
   const totalPages = Math.ceil(totalEvents.value / 2)
   return page.value < totalPages
 })
 const props = defineProps({
   page: {
     type: Number,
-    required: true
+    required: true,
   },
-  AmountEvent:{
+  AmountEvent: {
     type: Number,
-    required: true
-  }
+    required: true,
+  },
 })
 const page = computed(() => props.page)
 const pageSize = computed(() => props.AmountEvent)
 
-onMounted (() => {
-  watchEffect (() => {
-  events.value = null
-  EventService.getEvents(pageSize.value, page.value)
-    .then((response) => {
-      events.value = response.data
-      totalEvents.value = response.headers['x-total-count']
-    })
-    .catch((error) => {
-      console.error('There was an error!', error)
-    })
-    })
+onMounted(() => {
+  watchEffect(() => {
+    nProgress.start()
+    events.value = null
+    EventService.getEvents(pageSize.value, page.value)
+      .then((response) => {
+        events.value = response.data
+        totalEvents.value = response.headers['x-total-count']
+      })
+      .catch((error) => {
+        console.error('There was an error!', error)
+      })
+      .finally(() => {
+        nProgress.done()
+      })
+  })
 })
 </script>
 
-
 <template>
   <h1>Events For Good</h1>
-  <div class="home" v-for="event in events" :key="event.id" >
+  <div class="home" v-for="event in events" :key="event.id">
     <!--<CardOrganCate :event="event"/> -->
-    <EventCard  :event="event"/>
+    <EventCard :event="event" />
   </div>
-  
+
   <div class="pagination">
-    <RouterLink 
-      :to="{ name: 'event-list-view', query: { page: page - 1, size: AmountEvent}}"
+    <RouterLink
+      :to="{ name: 'event-list-view', query: { page: page - 1, size: AmountEvent } }"
       rel="prev"
       v-if="page != 1"
-      >&#60; Prev Page</RouterLink>
+      >&#60; Prev Page</RouterLink
+    >
 
-    <RouterLink 
-      :to="{name: 'event-list-view', query: { page: page + 1, size: AmountEvent} }" 
+    <RouterLink
+      :to="{ name: 'event-list-view', query: { page: page + 1, size: AmountEvent } }"
       rel="next"
-      v-if="hasNextPage"> Next Page &#62;</RouterLink>
+      v-if="hasNextPage"
+    >
+      Next Page &#62;</RouterLink
+    >
   </div>
 </template>
 
@@ -83,5 +92,4 @@ onMounted (() => {
 #page-next {
   text-align: rigt;
 }
-
 </style>
