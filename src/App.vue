@@ -1,33 +1,37 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
-
+import { useMessageStore } from './stores/message'
+import { storeToRefs } from 'pinia'
+const store = useMessageStore()
+const { message } = storeToRefs(store)
 </script>
-  
+
 <template>
-<div id="layout">
-  <header>
-    <div class="wrapper">
-      <nav>
-        <RouterLink :to="{ name: 'event-list-view'}" >Home</RouterLink> |
-        <RouterLink :to="{ name: 'event-list-view'}">Event</RouterLink> |
-        <RouterLink :to="{ name: 'student'}">StudentList</RouterLink> |
-        <RouterLink :to="{ name: 'about'}">About</RouterLink>
-      </nav>
+  <div id="layout">
+    <header>
+      <div id="flashMessage" v-if="message">
+        <h4>{{ message }}</h4>
+      </div>
+      <div class="wrapper">
+        <nav>
+          <RouterLink :to="{ name: 'event-list-view' }">Home</RouterLink> |
+          <RouterLink :to="{ name: 'event-list-view' }">Event</RouterLink> |
+          <RouterLink :to="{ name: 'student' }">StudentList</RouterLink> |
+          <RouterLink :to="{ name: 'about' }">About</RouterLink>
+        </nav>
       </div>
     </header>
 
-    <router-link 
-    v-for="size in [2, 3, 4, 5]"
-    :key="size"
-    :to="{ query: { ...$route.query, size: size, page: 1}}"
-    :class="{ 'active-size': ($route.query.size  || 2 ) == size}"
+    <router-link
+      v-for="size in [2, 3, 4, 5]"
+      :key="size"
+      :to="{ query: { ...$route.query, size: size, page: 1 } }"
+      :class="{ 'active-size': ($route.query.size || 2) == size }"
     >
-     {{ size }} per page
+      {{ size }} per page
     </router-link>
-    
 
     <RouterView />
-
   </div>
 </template>
 
@@ -44,8 +48,8 @@ nav {
 }
 
 nav a {
-font-weight: bold;
-color: #2c3e50;
+  font-weight: bold;
+  color: #2c3e50;
 }
 nav a.router-link-exact-active {
   color: #42b983;
@@ -53,5 +57,17 @@ nav a.router-link-exact-active {
 
 h2 {
   font-size: 20px;
+}
+
+@keyframes yellowFade {
+  from {
+    background-color: yellow;
+  }
+  to {
+    background-color: transparent;
+  }
+}
+#flashMessage {
+  animation: yellowFade 3s ease-in-out;
 }
 </style>
