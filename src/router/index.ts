@@ -97,6 +97,9 @@ const router = createRouter({
       component: NetworkErrorView,
     },
   ],
+  scrollBehavior() {
+    return {}
+  },
 })
 router.beforeEach(() => {
   nProgress.start()
