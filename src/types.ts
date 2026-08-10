@@ -23,4 +23,5 @@ export interface Student {
 
 export interface MessageState {
   message: string
+  editMessage: string
 }
